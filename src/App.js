@@ -14,18 +14,26 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
-    axios.get('https://dummyjson.com/products')
-      .then(response => {
-        const tempProductList = response.data.products;
-        setProductList([
-          ...productList,
-          ...tempProductList,
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+
+    const fetchProducts = async () => {
+      let apiUrl = 'products/';
+      
+      if (selectedCategory) {
+        apiUrl += `category/${selectedCategory}`;
+      }
+
+      try {
+        const response = await axios.get('https://dummyjson.com/' + apiUrl)
+        const data = await response.data.products
+        setProductList(data);
+      } catch (error) {
+        console.error('Error fetching: ', error);
+      }
+    }
+
+    fetchProducts();
+
+  }, [selectedCategory]);
 
 
   useEffect(() => {

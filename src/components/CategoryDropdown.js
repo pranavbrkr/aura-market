@@ -12,7 +12,7 @@ function CategoryDropdown({ categories, selectedCategory, onCategoryChange }) {
         label="Category"
       >
         <MenuItem value="">
-          <em>None</em>
+          All Products
         </MenuItem>
         {categories.map((category, index) => (
           <MenuItem key={index} value={category}>
