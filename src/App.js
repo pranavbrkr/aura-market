@@ -15,6 +15,7 @@ function App() {
   const [productList, setProductList] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
 
@@ -60,6 +61,20 @@ function App() {
     setSelectedCategory(event.target.value);
   }
 
+  const addToCart = (product) => {
+    setCart(prevCart => {
+      const itemIndex = prevCart.findIndex(item => item.id === product.id);
+
+      if(itemIndex > -1) {
+        const newCart = [...prevCart];
+        newCart[itemIndex].quantity += 1;
+        return newCart;
+      } else {
+        return [...prevCart, {...product, quantity: 1}];
+      }
+    })
+  }
+
   const filteredProducts = productList.filter(product => product.title.toLowerCase().includes(searchString.toLowerCase()))
 
   return (
@@ -71,8 +86,8 @@ function App() {
         <Routes>
           <Route path='/' element={<ProductsList productList={filteredProducts} />} />
           {/* <Route path='/products' element={<ProductsList productList={filteredProducts} />} /> */}
-          <Route path='/products/:productId' element={<ProductDetails />} />
-          <Route path='/cart' element={<Cart />} />
+          <Route path='/products/:productId' element={<ProductDetails addToCart={addToCart} />} />
+          <Route path='/cart' element={<Cart cartItems = {cart} />} />
         </Routes>
       </BrowserRouter>
     </div>

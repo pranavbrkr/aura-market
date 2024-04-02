@@ -26,6 +26,10 @@ function TopNav() {
     navigate('/cart');
   }
 
+  const goToHome = () => {
+    navigate('/');
+  }
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -46,7 +50,7 @@ function TopNav() {
       <AppBar position='static'>
         <Toolbar>
           <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center'}}>
-            <Typography variant='h6' noWrap>
+            <Typography onClick={goToHome} variant='h6' noWrap>
               Aura Market
             </Typography>
           </Box>

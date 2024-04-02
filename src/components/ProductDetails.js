@@ -2,11 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 
-function ProductDetails() {
+function ProductDetails({ addToCart }) {
 
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
+
+  const handleAddToCart = () => {
+    addToCart(product)
+  }
 
   useEffect(() => {
     axios.get(`https://dummyjson.com/products/${productId}`)
@@ -25,7 +29,10 @@ function ProductDetails() {
     )
   } else {
     return (
-      <div>{product.description}</div>
+      <>
+        <div>{product.description}</div>
+        <button onClick={handleAddToCart}>Add to Cart</button>
+      </>
     )
   }
 }
