@@ -2,8 +2,13 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@m
 import { useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Cart from './Cart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useNavigate } from 'react-router-dom';
 
 function TopNav() {
+
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -16,6 +21,10 @@ function TopNav() {
   }
 
   const menuId = 'primary-search-account-menu';
+
+  const goToCart = () => {
+    navigate('/cart');
+  }
 
   const renderMenu = (
     <Menu
@@ -42,7 +51,7 @@ function TopNav() {
             </Typography>
           </Box>
           <Box sx={{flexGrow: 1}} />
-          <Cart />
+          <IconButton onClick={goToCart}><ShoppingCartIcon /></IconButton>
           <IconButton>
             <AccountCircleIcon />
           </IconButton>

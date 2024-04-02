@@ -5,6 +5,9 @@ import Search from './components/Search';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CategoryDropdown from './components/CategoryDropdown';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ProductDetails from './components/ProductDetails';
+import Cart from './components/Cart';
 
 function App() {
 
@@ -61,10 +64,17 @@ function App() {
 
   return (
     <div className="App">
-      <TopNav />
-      <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-      <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
-      <ProductsList productList = {filteredProducts} />
+      <BrowserRouter>
+        <TopNav />
+        <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+        <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+        <Routes>
+          <Route path='/' element={<ProductsList productList={filteredProducts} />} />
+          {/* <Route path='/products' element={<ProductsList productList={filteredProducts} />} /> */}
+          <Route path='/products/:productId' element={<ProductDetails />} />
+          <Route path='/cart' element={<Cart />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
