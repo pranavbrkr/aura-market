@@ -5,7 +5,7 @@ import Search from './components/Search';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CategoryDropdown from './components/CategoryDropdown';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 
@@ -61,20 +61,6 @@ function App() {
     setSelectedCategory(event.target.value);
   }
 
-  // const addToCart = (product) => {
-  //   setCart(prevCart => {
-  //     const itemIndex = prevCart.findIndex(item => item.id === product.id);
-
-  //     if(itemIndex > -1) {
-  //       const newCart = [...prevCart];
-  //       newCart[itemIndex].quantity += 1;
-  //       return newCart;
-  //     } else {
-  //       return [...prevCart, {...product, quantity: 1}];
-  //     }
-  //   })
-  // }
-
   const addToCart = (product) => {
     setCart((prevCartItems) => {
 
@@ -91,15 +77,30 @@ function App() {
 
   const filteredProducts = productList.filter(product => product.title.toLowerCase().includes(searchString.toLowerCase()))
 
+  function CategoryAndSearchComponents() {
+
+    const location = useLocation();
+    
+    return (
+      <>
+        {location.pathname === '/' ? (
+          <>
+            <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+            <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+          </>
+        ) : null}
+      </>
+    )
+    
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <TopNav />
-        <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-        <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+        <CategoryAndSearchComponents />
         <Routes>
           <Route path='/' element={<ProductsList productList={filteredProducts} />} />
-          {/* <Route path='/products' element={<ProductsList productList={filteredProducts} />} /> */}
           <Route path='/products/:productId' element={<ProductDetails addToCart={addToCart} />} />
           <Route path='/cart' element={<Cart cartItems = {cart} setCartItems = {setCart} />} />
         </Routes>
