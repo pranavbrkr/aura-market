@@ -61,17 +61,31 @@ function App() {
     setSelectedCategory(event.target.value);
   }
 
-  const addToCart = (product) => {
-    setCart(prevCart => {
-      const itemIndex = prevCart.findIndex(item => item.id === product.id);
+  // const addToCart = (product) => {
+  //   setCart(prevCart => {
+  //     const itemIndex = prevCart.findIndex(item => item.id === product.id);
 
-      if(itemIndex > -1) {
-        const newCart = [...prevCart];
-        newCart[itemIndex].quantity += 1;
-        return newCart;
+  //     if(itemIndex > -1) {
+  //       const newCart = [...prevCart];
+  //       newCart[itemIndex].quantity += 1;
+  //       return newCart;
+  //     } else {
+  //       return [...prevCart, {...product, quantity: 1}];
+  //     }
+  //   })
+  // }
+
+  const addToCart = (product) => {
+    setCart((prevCartItems) => {
+
+      const isProductInCart = prevCartItems.find(item => item.id === product.id);
+
+      if (isProductInCart) {
+        return prevCartItems.map((item) => item.id === product.id ? {...item, quantity: item.quantity + 1} : item);
       } else {
-        return [...prevCart, {...product, quantity: 1}];
+        return [...prevCartItems, {...product, quantity: 1}];
       }
+
     })
   }
 
@@ -87,7 +101,7 @@ function App() {
           <Route path='/' element={<ProductsList productList={filteredProducts} />} />
           {/* <Route path='/products' element={<ProductsList productList={filteredProducts} />} /> */}
           <Route path='/products/:productId' element={<ProductDetails addToCart={addToCart} />} />
-          <Route path='/cart' element={<Cart cartItems = {cart} />} />
+          <Route path='/cart' element={<Cart cartItems = {cart} setCartItems = {setCart} />} />
         </Routes>
       </BrowserRouter>
     </div>
