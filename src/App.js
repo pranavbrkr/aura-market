@@ -63,7 +63,6 @@ function App() {
 
   const addToCart = (product) => {
     setCart((prevCartItems) => {
-
       const isProductInCart = prevCartItems.find(item => item.id === product.id);
 
       if (isProductInCart) {
@@ -71,7 +70,6 @@ function App() {
       } else {
         return [...prevCartItems, {...product, quantity: 1}];
       }
-
     })
   }
 
@@ -95,7 +93,6 @@ function App() {
   const handleCartItemRemove = (productId) => {
     setCart((currentItems) => {
       const updatedItems = currentItems.filter((item) => item.id !== productId);
-
       return updatedItems
     });
   }

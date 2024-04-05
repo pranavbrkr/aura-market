@@ -12,11 +12,10 @@ function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, 
   const [productQuantity, setProductQuantity] = useState(0);
 
   useEffect(() => {
-    console.log("UseEffect fired")
     axios.get(`https://dummyjson.com/products/${productId}`)
       .then(response => {
         setProduct(response.data);
-        setSelectedImage(response.data.images[0]); // Set the first image as the selected one initially
+        setSelectedImage(response.data.images[0]);
         const cartItem = cartItems.find(item => item.id === response.data.id);
         if (cartItem) {
           setProductQuantity(cartItem.quantity);
