@@ -55,7 +55,6 @@ function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, 
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant="h4">{product.title}</Typography>
-          <Typography variant="subtitle1" style={{ margin: '20px 0' }}>{product.category}</Typography>
           <Typography display="inline" variant="body1">
             Original price: 
           </Typography>
