@@ -50,8 +50,11 @@ function ProductDetails({ addToCart }) {
         <Grid item xs={12} md={6}>
           <Typography variant="h4">{product.title}</Typography>
           <Typography variant="subtitle1" style={{ margin: '20px 0' }}>{product.category}</Typography>
-          <Typography variant="body1" style={{ textDecoration: product.discountPercentage ? 'line-through' : 'none' }}>
-            Original price: ${product.price}
+          <Typography display="inline" variant="body1">
+            Original price: 
+          </Typography>
+          <Typography display="inline" variant="body1" style={{ textDecoration: product.discountPercentage ? 'line-through' : 'none' }}>
+            ${product.price}
           </Typography>
           {product.discountPercentage && (
             <Typography variant="body1" style={{ color: 'green', marginBottom: '20px' }}>
