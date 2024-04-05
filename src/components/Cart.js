@@ -1,5 +1,6 @@
 import { AddCardOutlined, AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { Avatar, Box, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
+import { Link } from "react-router-dom";
 
 function Cart({ cartItems, setCartItems }) {
 
@@ -28,31 +29,14 @@ function Cart({ cartItems, setCartItems }) {
     });
   }
 
-  // if (cartItems.length) {
-  //   return (
-  //     <div>
-  //       {cartItems.map(item => (
-  //         <li key={item.id}>
-  //           {item.title} - Quantity: {item.quantity}
-  //           <Button onClick={() => handleIncreaseQuantity(item.id)}>+</Button>
-  //           <Button onClick={() => handleDecreaseQuantity(item.id)}>-</Button>
-  //           <Button onClick={() => handleItemRemove(item.id)}>Delete</Button>
-  //         </li>
-  //       ))}
-  //     </div>
-  //   )
-  // } else {
-  //   return (
-  //     <div>
-  //       Cart empty
-  //     </div>
-  //   )
-  // }
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
   return (
-    <Box display="flex" justifyContent="center" width="100%" mt={2}>
-      <List sx={{ width: '60%', maxWidth: '700px', bgcolor: 'background.paper' }}>
-        {cartItems.length ? (
+    <Box display="flex" flexDirection="column" alignItems="center" width="100%" mt={2}>
+      <List sx={{ width: '60%', maxWidth: '700px', bgcolor: 'background.paper', mb: 2 }}>
+        {cartItems.length > 0 ? (
           cartItems.map((item) => (
             <ListItem 
               key={item.id} 
@@ -63,7 +47,9 @@ function Cart({ cartItems, setCartItems }) {
                 border: 1, 
                 borderColor: 'grey.300', 
                 borderRadius: '10px',
-                alignItems: 'center'
+                alignItems: 'center',
+                display: 'flex',
+                justifyContent: 'space-between'
               }}
             >
               <ListItemAvatar>
@@ -75,20 +61,18 @@ function Cart({ cartItems, setCartItems }) {
                 />
               </ListItemAvatar>
               <ListItemText 
-                primary={<Box component="span" sx={{ fontSize: '1.25rem' }}>{item.title}</Box>} 
+                primary={
+                  <Link to={`/products/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Box component="span" sx={{ fontSize: '1.25rem' }}>{item.title}</Box>
+                  </Link>                  
+                } 
                 secondary={`Quantity: ${item.quantity}`} 
-                sx={{ margin: '0 10px', '.MuiTypography-body2': { fontSize: '1rem' } }} 
+                sx={{ '.MuiTypography-body1': { fontSize: '1.25rem' }, '.MuiTypography-body2': { fontSize: '1rem' } }} 
               />
               <Box>
-                <IconButton aria-label="delete" onClick={() => handleItemRemove(item.id)} sx={{ padding: '5px' }}>
-                  <DeleteOutline />
-                </IconButton>
-                <IconButton aria-label="remove" onClick={() => handleDecreaseQuantity(item.id)} sx={{ padding: '5px' }}>
-                  <RemoveCircleOutline />
-                </IconButton>
-                <IconButton aria-label="add" onClick={() => handleIncreaseQuantity(item.id)} sx={{ padding: '5px' }}>
-                  <AddCircleOutline />
-                </IconButton>
+                <IconButton onClick={() => handleIncreaseQuantity(item.id)}><AddCircleOutline /></IconButton>
+                <IconButton onClick={() => handleDecreaseQuantity(item.id)}><RemoveCircleOutline /></IconButton>
+                <IconButton onClick={() => handleItemRemove(item.id)}><DeleteOutline /></IconButton>
               </Box>
             </ListItem>
           ))
@@ -98,6 +82,41 @@ function Cart({ cartItems, setCartItems }) {
           </ListItem>
         )}
       </List>
+      {cartItems.length > 0 && (
+        <Box width="60%" maxWidth="450px" display="flex" flexDirection="column" alignItems="center">
+          <Button 
+            variant="contained" 
+            sx={{
+              bgcolor: 'error.main', 
+              '&:hover': { bgcolor: 'error.dark' },
+              borderRadius: '20px',
+              color: 'white',
+              mb: 1, // Margin bottom for spacing between buttons
+              padding: '10px 40px',
+              textTransform: 'none',
+              width: '100%', // Make the button stretch to fill the container
+            }}
+            onClick={clearCart}
+          >
+            Clear Cart
+          </Button>
+          <Button 
+            variant="contained" 
+            sx={{
+              bgcolor: 'primary.main', 
+              '&:hover': { bgcolor: 'primary.dark' },
+              borderRadius: '20px',
+              color: 'white',
+              padding: '10px 40px',
+              textTransform: 'none',
+              width: '100%', // Make the button stretch to fill the container
+            }}
+            onClick={() => { /* Logic to proceed to checkout */ }}
+          >
+            Proceed to Checkout
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 
