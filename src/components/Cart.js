@@ -1,9 +1,13 @@
+import { Typography } from "@mui/material";
 import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { Avatar, Box, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from "react";
 
 function Cart() {
+
+  const [totalPrice, setTotalPrice] = useState(0)
 
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cartItems);
@@ -23,6 +27,10 @@ function Cart() {
   const decreaseItem = (productId) => {
     dispatch({type: 'DEC_ITEM', payload: productId})
   }
+
+  useEffect(() => {
+    setTotalPrice(cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2));
+  }, [cartItems])
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%" mt={2}>
@@ -57,7 +65,7 @@ function Cart() {
                     <Box component="span" sx={{ fontSize: '1.25rem' }}>{item.title}</Box>
                   </Link>                  
                 } 
-                secondary={`Quantity: ${item.quantity}`} 
+                secondary={`Quantity: ${item.quantity} | Rate: $${item.price} | Total: $${item.quantity * item.price}`} 
                 sx={{ '.MuiTypography-body1': { fontSize: '1.25rem' }, '.MuiTypography-body2': { fontSize: '1rem' } }} 
               />
               <Box>
@@ -75,6 +83,9 @@ function Cart() {
       </List>
       {cartItems.length > 0 && (
         <Box width="60%" maxWidth="450px" display="flex" flexDirection="column" alignItems="center">
+          <Typography variant="h6" sx={{ mt: 2, mb: 2 }}>
+            Total Price: ${totalPrice}
+          </Typography>
           <Button 
             variant="contained" 
             sx={{

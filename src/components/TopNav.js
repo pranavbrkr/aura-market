@@ -1,7 +1,7 @@
 import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function TopNav({ cartLength }) {
   const cartItems = useSelector(state => state.cartItems);
