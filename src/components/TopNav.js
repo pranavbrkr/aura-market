@@ -1,8 +1,8 @@
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
-function TopNav() {
+function TopNav({ cartLength }) {
 
   const navigate = useNavigate();
 
@@ -36,7 +36,11 @@ function TopNav() {
             </Typography>
           </Box>
           <Box sx={{flexGrow: 1}} />
-          <IconButton onClick={goToCart} color="inherit"><ShoppingCartIcon /></IconButton>
+          <IconButton onClick={goToCart} color="inherit">
+            <Badge badgeContent={cartLength} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

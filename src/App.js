@@ -126,7 +126,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.paper' }}>
-          <TopNav />
+          <TopNav cartLength={cart.length} />
           <CategoryAndSearchComponents />
         </Box>
         <Routes>
