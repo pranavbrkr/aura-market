@@ -1,26 +1,10 @@
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import { useState } from 'react';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Cart from './Cart';
+import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
 function TopNav() {
 
   const navigate = useNavigate();
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  }
-
-  const menuId = 'primary-search-account-menu';
 
   const goToCart = () => {
     navigate('/cart');
@@ -30,32 +14,29 @@ function TopNav() {
     navigate('/');
   }
 
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-      id={menuId}
-      keepMounted
-      transformOrigin={{vertical: 'top', horizontal: 'right'}}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-    </Menu>
-  );
-
   return (
     <div>
       <AppBar position='static' style={{marginTop: 0, marginLeft: 0}}>
         <Toolbar>
-          <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center'}}>
-            <Typography onClick={goToHome} variant='h6' noWrap>
+          <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
+          <Typography
+              onClick={goToHome}
+              variant='h5'
+              noWrap
+              sx={{
+                fontWeight: 'bold', // Make the font weight bold
+                color: 'white', // This is typically the text color for AppBars, but you can customize it
+                '&:hover': {
+                  color: 'grey.300', // Lighten the color on hover
+                },
+                userSelect: 'none', // Prevent text selection
+              }}
+            >
               Aura Market
             </Typography>
           </Box>
           <Box sx={{flexGrow: 1}} />
-          <IconButton onClick={goToCart}><ShoppingCartIcon /></IconButton>
+          <IconButton onClick={goToCart} color="inherit"><ShoppingCartIcon /></IconButton>
         </Toolbar>
       </AppBar>
     </div>

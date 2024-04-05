@@ -2,32 +2,7 @@ import { AddCardOutlined, AddCircleOutline, DeleteOutline, RemoveCircleOutline }
 import { Avatar, Box, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom";
 
-function Cart({ cartItems, setCartItems }) {
-
-  const handleIncreaseQuantity = (productId) => {
-    setCartItems((currentItems) => currentItems.map((item) => item.id === productId ? {...item, quantity: item.quantity + 1} : item));
-  }
-
-  const handleDecreaseQuantity = (productId) => {
-    setCartItems((currentItems) => {
-      const newItems = currentItems.map((item) => {
-        if (item.id === productId) {
-          return {...item, quantity: item.quantity - 1};
-        }
-        return item;
-      }).filter((item) => item.quantity > 0);
-
-      return newItems;
-    });
-  }
-
-  const handleItemRemove = (productId) => {
-    setCartItems((currentItems) => {
-      const updatedItems = currentItems.filter((item) => item.id !== productId);
-
-      return updatedItems
-    });
-  }
+function Cart({ cartItems, setCartItems, handleCartItemIncreaseQuantity, handleCartItemDecreaseQuantity, handleCartItemRemove }) {
 
   const clearCart = () => {
     setCartItems([]);
@@ -70,9 +45,9 @@ function Cart({ cartItems, setCartItems }) {
                 sx={{ '.MuiTypography-body1': { fontSize: '1.25rem' }, '.MuiTypography-body2': { fontSize: '1rem' } }} 
               />
               <Box>
-                <IconButton onClick={() => handleIncreaseQuantity(item.id)}><AddCircleOutline /></IconButton>
-                <IconButton onClick={() => handleDecreaseQuantity(item.id)}><RemoveCircleOutline /></IconButton>
-                <IconButton onClick={() => handleItemRemove(item.id)}><DeleteOutline /></IconButton>
+                <IconButton onClick={() => handleCartItemDecreaseQuantity(item.id)}><RemoveCircleOutline /></IconButton>
+                <IconButton onClick={() => handleCartItemRemove(item.id)}><DeleteOutline /></IconButton>
+                <IconButton onClick={() => handleCartItemIncreaseQuantity(item.id)}><AddCircleOutline /></IconButton>
               </Box>
             </ListItem>
           ))

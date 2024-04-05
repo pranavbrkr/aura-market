@@ -8,7 +8,7 @@ import CategoryDropdown from './components/CategoryDropdown';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 
 function App() {
 
@@ -44,8 +44,7 @@ function App() {
   useEffect(() => {
     axios.get('https://dummyjson.com/products/categories')
       .then(response => {
-        setCategories([ 
-          ...categories,
+        setCategories([
           ...response.data,
         ])
       })
@@ -76,6 +75,33 @@ function App() {
     })
   }
 
+  const handleCartItemIncreaseQuantity = (productId) => {
+    setCart((currentItems) => currentItems.map((item) => item.id === productId ? {...item, quantity: item.quantity + 1} : item));
+  }
+
+  const handleCartItemDecreaseQuantity = (productId) => {
+    setCart((currentItems) => {
+      const newItems = currentItems.map((item) => {
+        if (item.id === productId) {
+          return {...item, quantity: item.quantity - 1};
+        }
+        return item;
+      }).filter((item) => item.quantity > 0);
+
+      return newItems;
+    });
+  }
+
+  const handleCartItemRemove = (productId) => {
+    setCart((currentItems) => {
+      const updatedItems = currentItems.filter((item) => item.id !== productId);
+
+      return updatedItems
+    });
+  }
+
+
+
   const filteredProducts = productList.filter(product => product.title.toLowerCase().includes(searchString.toLowerCase()))
 
   function CategoryAndSearchComponents() {
@@ -85,9 +111,13 @@ function App() {
     return (
       <>
         {location.pathname === '/' ? (
-          <Box display="flex" justifyContent="center" alignItems="center">
-              <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-              <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+          <Box display="flex" justifyContent="center" alignItems="center" ml={30} mr={30} mb={5}>
+              <Box sx={{flexGrow: 1}}>
+                <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+              </Box>
+              <Box sx={{flexGrow: 2}}>
+                <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+              </Box>
           </Box>
         ) : null}
       </>
@@ -98,12 +128,14 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <TopNav />
-        <CategoryAndSearchComponents />
+        <Box sx={{ position: 'sticky', top: 0, zIndex: 1100, bgcolor: 'background.paper' }}>
+          <TopNav />
+          <CategoryAndSearchComponents />
+        </Box>
         <Routes>
           <Route path='/' element={<ProductsList productList={filteredProducts} />} />
-          <Route path='/products/:productId' element={<ProductDetails addToCart={addToCart} />} />
-          <Route path='/cart' element={<Cart cartItems = {cart} setCartItems = {setCart} />} />
+          <Route path='/products/:productId' element={<ProductDetails cartItems={cart} addToCart={addToCart} handleCartItemIncreaseQuantity={handleCartItemIncreaseQuantity} handleCartItemDecreaseQuantity={handleCartItemDecreaseQuantity} handleCartItemRemove={handleCartItemRemove} />} />
+          <Route path='/cart' element={<Cart cartItems = {cart} setCartItems = {setCart} handleCartItemIncreaseQuantity={handleCartItemIncreaseQuantity} handleCartItemDecreaseQuantity={handleCartItemDecreaseQuantity} handleCartItemRemove={handleCartItemRemove} />} />
         </Routes>
       </BrowserRouter>
     </div>

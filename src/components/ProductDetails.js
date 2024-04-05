@@ -2,32 +2,38 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import StarRating from './StarRating'; // Assuming you have this component
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
+import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 
-function ProductDetails({ addToCart }) {
+function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, handleCartItemDecreaseQuantity, handleCartItemRemove }) {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState('');
-
- 
+  const [productQuantity, setProductQuantity] = useState(0);
 
   useEffect(() => {
+    console.log("UseEffect fired")
     axios.get(`https://dummyjson.com/products/${productId}`)
       .then(response => {
         setProduct(response.data);
         setSelectedImage(response.data.images[0]); // Set the first image as the selected one initially
+        const cartItem = cartItems.find(item => item.id === response.data.id);
+        if (cartItem) {
+          setProductQuantity(cartItem.quantity);
+        }
       })
       .catch(error => {
         console.error(error);
       });
-  }, [productId]);
+  }, [cartItems, productId]);
 
   if (!product) {
     return <div>Loading...</div>;
   }
 
   const handleAddToCart = () => {
-    addToCart(product)
+    addToCart(product);
+    setProductQuantity(1);
   }
 
   return (
@@ -66,7 +72,32 @@ function ProductDetails({ addToCart }) {
           </Box>
 
           <Box my={2}>
-          <button onClick={handleAddToCart}>Add to Cart</button>
+            {productQuantity === 0 ? (
+              <Button
+              onClick={handleAddToCart} 
+              variant="contained"
+              sx={{
+                bgcolor: 'warning.main', // Using the warning color for a yellow button
+                '&:hover': { bgcolor: 'warning.dark' },
+                borderRadius: '20px', // Capsule shape
+                color: 'white',
+                padding: '10px 40px',
+                textTransform: 'none',
+                width: '100%', // Full width within its container
+              }}
+            >
+              Add to Cart
+            </Button>
+            ) : (
+              <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
+                <Typography variant="h6" sx={{ mb: 2 }}>Quantity in Cart: {productQuantity}</Typography>
+                <Box display="flex">
+                  <IconButton onClick={() => {handleCartItemDecreaseQuantity(productId)}}><RemoveCircleOutline /></IconButton>
+                  <IconButton onClick={() => handleCartItemRemove(productId)}><DeleteOutline /></IconButton>
+                  <IconButton onClick={() => handleCartItemIncreaseQuantity(productId)}><AddCircleOutline /></IconButton>
+                </Box>
+              </Box>
+            )}
           </Box>
         </Grid>
       </Grid>
