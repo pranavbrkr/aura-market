@@ -1,12 +1,28 @@
-import { AddCardOutlined, AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
+import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { Avatar, Box, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 
-function Cart({ cartItems, setCartItems, handleCartItemIncreaseQuantity, handleCartItemDecreaseQuantity, handleCartItemRemove }) {
+function Cart() {
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cartItems);
 
   const clearCart = () => {
-    setCartItems([]);
+    dispatch({type: 'CLEAR_CART'});
   };
+
+  const removeItem = (productId) => {
+    dispatch({type: 'REMOVE_ITEM', payload: productId})
+  }
+
+  const increaseItem = (productId) => {
+    dispatch({type: 'INC_ITEM', payload: productId})
+  }
+
+  const decreaseItem = (productId) => {
+    dispatch({type: 'DEC_ITEM', payload: productId})
+  }
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%" mt={2}>
@@ -45,9 +61,9 @@ function Cart({ cartItems, setCartItems, handleCartItemIncreaseQuantity, handleC
                 sx={{ '.MuiTypography-body1': { fontSize: '1.25rem' }, '.MuiTypography-body2': { fontSize: '1rem' } }} 
               />
               <Box>
-                <IconButton onClick={() => handleCartItemDecreaseQuantity(item.id)}><RemoveCircleOutline /></IconButton>
-                <IconButton onClick={() => handleCartItemRemove(item.id)}><DeleteOutline /></IconButton>
-                <IconButton onClick={() => handleCartItemIncreaseQuantity(item.id)}><AddCircleOutline /></IconButton>
+                <IconButton onClick={() => decreaseItem(item.id)}><RemoveCircleOutline /></IconButton>
+                <IconButton onClick={() => removeItem(item.id)}><DeleteOutline /></IconButton>
+                <IconButton onClick={() => increaseItem(item.id)}><AddCircleOutline /></IconButton>
               </Box>
             </ListItem>
           ))

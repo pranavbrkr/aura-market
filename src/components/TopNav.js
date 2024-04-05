@@ -1,9 +1,10 @@
 import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function TopNav({ cartLength }) {
-
+  const cartItems = useSelector(state => state.cartItems);
   const navigate = useNavigate();
 
   const goToCart = () => {
@@ -37,7 +38,7 @@ function TopNav({ cartLength }) {
           </Box>
           <Box sx={{flexGrow: 1}} />
           <IconButton onClick={goToCart} color="inherit">
-            <Badge badgeContent={cartLength} color="error">
+            <Badge badgeContent={cartItems.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>

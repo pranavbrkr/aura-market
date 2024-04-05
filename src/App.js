@@ -131,8 +131,8 @@ function App() {
         </Box>
         <Routes>
           <Route path='/' element={<ProductsList productList={filteredProducts} />} />
-          <Route path='/products/:productId' element={<ProductDetails cartItems={cart} addToCart={addToCart} handleCartItemIncreaseQuantity={handleCartItemIncreaseQuantity} handleCartItemDecreaseQuantity={handleCartItemDecreaseQuantity} handleCartItemRemove={handleCartItemRemove} />} />
-          <Route path='/cart' element={<Cart cartItems = {cart} setCartItems = {setCart} handleCartItemIncreaseQuantity={handleCartItemIncreaseQuantity} handleCartItemDecreaseQuantity={handleCartItemDecreaseQuantity} handleCartItemRemove={handleCartItemRemove} />} />
+          <Route path='/products/:productId' element={<ProductDetails />} />
+          <Route path='/cart' element={<Cart />} />
         </Routes>
       </BrowserRouter>
     </div>

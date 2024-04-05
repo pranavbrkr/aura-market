@@ -5,35 +5,60 @@ import StarRating from './StarRating'; // Assuming you have this component
 import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import { useSelector, useDispatch } from 'react-redux';
 
-function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, handleCartItemDecreaseQuantity, handleCartItemRemove }) {
+function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState('');
   const [productQuantity, setProductQuantity] = useState(0);
+  const cartItems = useSelector(state => state.cartItems);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+
+    function getProductQuantity(productId) {
+      const foundProduct = cartItems.find(element => element.id === productId);
+      if (foundProduct) {
+        setProductQuantity(foundProduct.quantity);
+      } else {
+        setProductQuantity(0);
+      }
+    }
+
     axios.get(`https://dummyjson.com/products/${productId}`)
       .then(response => {
         setProduct(response.data);
         setSelectedImage(response.data.images[0]);
-        const cartItem = cartItems.find(item => item.id === response.data.id);
-        if (cartItem) {
-          setProductQuantity(cartItem.quantity);
-        }
+        getProductQuantity(response.data.id)
       })
       .catch(error => {
         console.error(error);
       });
-  }, [cartItems, productId]);
+
+  }, [productId, cartItems]);
+
 
   if (!product) {
     return <div>Loading...</div>;
   }
 
-  const handleAddToCart = () => {
-    addToCart(product);
+  const addItem = () => {
+    dispatch({type: 'ADD_ITEM', payload: product});
     setProductQuantity(1);
+  }
+
+
+  const removeItem = () => {
+    dispatch({type: 'REMOVE_ITEM', payload: product.id})
+  }
+
+  const increaseItem = () => {
+    dispatch({type: 'INC_ITEM', payload: product.id})
+  }
+
+  const decreaseItem = () => {
+    dispatch({type: 'DEC_ITEM', payload: product.id})
   }
 
   return (
@@ -100,7 +125,7 @@ function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, 
           <Box my={2}>
             {productQuantity === 0 ? (
               <Button
-              onClick={handleAddToCart} 
+              onClick={addItem} 
               variant="contained"
               sx={{
                 bgcolor: 'warning.main', // Using the warning color for a yellow button
@@ -118,9 +143,9 @@ function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, 
               <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
                 <Typography variant="h6" sx={{ mb: 2 }}>Quantity in Cart: {productQuantity}</Typography>
                 <Box display="flex">
-                  <IconButton onClick={() => {handleCartItemDecreaseQuantity(productId)}}><RemoveCircleOutline /></IconButton>
-                  <IconButton onClick={() => handleCartItemRemove(productId)}><DeleteOutline /></IconButton>
-                  <IconButton onClick={() => handleCartItemIncreaseQuantity(productId)}><AddCircleOutline /></IconButton>
+                  <IconButton onClick={decreaseItem}><RemoveCircleOutline /></IconButton>
+                  <IconButton onClick={removeItem}><DeleteOutline /></IconButton>
+                  <IconButton onClick={increaseItem}><AddCircleOutline /></IconButton>
                 </Box>
               </Box>
             )}
