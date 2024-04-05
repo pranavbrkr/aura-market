@@ -22,3 +22,7 @@ An E-commerce website built using React and Redux for state management.
 
 ![image](https://github.com/pranavbrkr/aura-market/assets/31160043/1a6e28ad-6a6b-4efa-9485-b1ac14c688c8)
 
+
+- Cart Page
+
+![image](https://github.com/pranavbrkr/aura-market/assets/31160043/7707a17c-6945-495b-b339-7f360fcebecd)
