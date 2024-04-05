@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 function Search({ searchString, handleSearchStringChange }) {
   return (
     <TextField
+      margin="normal" 
       value={searchString}
       onChange={handleSearchStringChange}
       id="input-with-icon-textfield"

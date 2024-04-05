@@ -47,7 +47,7 @@ function TopNav() {
 
   return (
     <div>
-      <AppBar position='static'>
+      <AppBar position='static' style={{marginTop: 0, marginLeft: 0}}>
         <Toolbar>
           <Box sx={{flexGrow: 1, display: 'flex', alignItems: 'center'}}>
             <Typography onClick={goToHome} variant='h6' noWrap>
@@ -56,9 +56,6 @@ function TopNav() {
           </Box>
           <Box sx={{flexGrow: 1}} />
           <IconButton onClick={goToCart}><ShoppingCartIcon /></IconButton>
-          <IconButton>
-            <AccountCircleIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

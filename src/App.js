@@ -8,6 +8,7 @@ import CategoryDropdown from './components/CategoryDropdown';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
+import { Box, Grid } from '@mui/material';
 
 function App() {
 
@@ -84,10 +85,10 @@ function App() {
     return (
       <>
         {location.pathname === '/' ? (
-          <>
-            <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
-            <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
-          </>
+          <Box display="flex" justifyContent="center" alignItems="center">
+              <CategoryDropdown categories={categories} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+              <Search searchString={searchString} handleSearchStringChange={handleSearchStringChange} />
+          </Box>
         ) : null}
       </>
     )

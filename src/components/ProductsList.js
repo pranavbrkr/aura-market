@@ -1,18 +1,17 @@
 import { Link } from "react-router-dom"
+import ProductCard from "./ProductCard"
+import { Grid } from "@mui/material"
 
 function ProductsList({ productList }) {
 
   return (
-    <ul>
+    <Grid container spacing={4}>
       {productList.map(product => (
-        <>
-        <Link to={`/products/${product.id}`} key={product.id}>
-          {product.title}
-        </Link>
-        <br></br>
-        </>
+        <Grid item key={product.id} xs={12} sm={6} md={4} >
+          <ProductCard product={product} />
+        </Grid>
       ))}
-    </ul>
+    </Grid>
   )
 }
 export default ProductsList
