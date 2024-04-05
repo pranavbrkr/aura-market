@@ -1,4 +1,4 @@
-import { Box, Rating, Typography } from "@mui/material"
+import { Box, Rating } from "@mui/material"
 
 function StarRating({ rating }) {
   return (

@@ -25,12 +25,12 @@ function TopNav({ cartLength }) {
               variant='h5'
               noWrap
               sx={{
-                fontWeight: 'bold', // Make the font weight bold
-                color: 'white', // This is typically the text color for AppBars, but you can customize it
+                fontWeight: 'bold',
+                color: 'white',
                 '&:hover': {
-                  color: 'grey.300', // Lighten the color on hover
+                  color: 'grey.300',
                 },
-                userSelect: 'none', // Prevent text selection
+                userSelect: 'none',
               }}
             >
               Aura Market

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import StarRating from './StarRating'; // Assuming you have this component
+import StarRating from './StarRating';
 import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
@@ -67,13 +67,13 @@ function ProductDetails() {
         <Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
           <Box
             sx={{
-              maxWidth: 500, // Maximum size for the image
-              height: 500, // Set a fixed height for the image container
-              backgroundColor: grey[200], // Faint gray background
+              maxWidth: 500,
+              height: 500,
+              backgroundColor: grey[200],
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              border: `1px solid ${grey[300]}`, // Border around the image for distinction
+              border: `1px solid ${grey[300]}`,
               marginBottom: 2,
             }}
           >
@@ -83,7 +83,7 @@ function ProductDetails() {
               style={{
                 maxWidth: '100%',
                 maxHeight: '100%',
-                objectFit: 'contain' // This will ensure the image is contained within the element, preserving its aspect ratio
+                objectFit: 'contain'
               }}
             />
           </Box>
@@ -95,10 +95,10 @@ function ProductDetails() {
                 alt={`Thumbnail ${index + 1}`}
                 style={{
                   width: '100px',
-                  height: '100px', // Making thumbnails square
-                  objectFit: 'cover', // Cover the area fully with the image
+                  height: '100px',
+                  objectFit: 'cover',
                   cursor: 'pointer',
-                  border: selectedImage === image ? `2px solid ${grey[900]}` : `1px solid ${grey[300]}`, // Highlight the selected thumbnail
+                  border: selectedImage === image ? `2px solid ${grey[900]}` : `1px solid ${grey[300]}`,
                 }}
                 onClick={() => setSelectedImage(image)}
               />
@@ -128,13 +128,13 @@ function ProductDetails() {
               onClick={addItem} 
               variant="contained"
               sx={{
-                bgcolor: 'warning.main', // Using the warning color for a yellow button
+                bgcolor: 'warning.main',
                 '&:hover': { bgcolor: 'warning.dark' },
-                borderRadius: '20px', // Capsule shape
+                borderRadius: '20px',
                 color: 'white',
                 padding: '10px 40px',
                 textTransform: 'none',
-                width: '100%', // Full width within its container
+                width: '100%',
               }}
             >
               Add to Cart
