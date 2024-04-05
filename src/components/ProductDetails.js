@@ -4,6 +4,7 @@ import axios from "axios";
 import StarRating from './StarRating'; // Assuming you have this component
 import { Box, Button, Container, Grid, IconButton, Typography } from "@mui/material";
 import { AddCircleOutline, DeleteOutline, RemoveCircleOutline } from "@mui/icons-material";
+import { grey } from "@mui/material/colors";
 
 function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, handleCartItemDecreaseQuantity, handleCartItemRemove }) {
   const { productId } = useParams();
@@ -39,14 +40,41 @@ function ProductDetails({ cartItems, addToCart, handleCartItemIncreaseQuantity, 
     <Container style={{ marginTop: '20px', marginBottom: '20px', marginLeft: 'auto', marginRight: 'auto' }}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
-          <img src={selectedImage} alt="Selected" style={{ maxWidth: '100%', height: 'auto' }} />
-          <div style={{ overflowX: 'auto', display: 'flex', marginTop: '10px' }}>
+          <Box
+            sx={{
+              maxWidth: 500, // Maximum size for the image
+              height: 500, // Set a fixed height for the image container
+              backgroundColor: grey[200], // Faint gray background
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              border: `1px solid ${grey[300]}`, // Border around the image for distinction
+              marginBottom: 2,
+            }}
+          >
+            <img
+              src={selectedImage}
+              alt="Selected"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain' // This will ensure the image is contained within the element, preserving its aspect ratio
+              }}
+            />
+          </Box>
+          <div style={{ overflowX: 'auto', display: 'flex', gap: '10px' }}>
             {product.images.map((image, index) => (
               <img
                 key={index}
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
-                style={{ width: '100px', height: 'auto', marginRight: '10px', cursor: 'pointer' }}
+                style={{
+                  width: '100px',
+                  height: '100px', // Making thumbnails square
+                  objectFit: 'cover', // Cover the area fully with the image
+                  cursor: 'pointer',
+                  border: selectedImage === image ? `2px solid ${grey[900]}` : `1px solid ${grey[300]}`, // Highlight the selected thumbnail
+                }}
                 onClick={() => setSelectedImage(image)}
               />
             ))}
